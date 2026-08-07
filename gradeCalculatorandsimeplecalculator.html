@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade Calculators + Simple Calculator</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background: url('backgroundgrade.png') no-repeat center center fixed;
+    background-size: cover;
+    padding: 30px;
+}
+
+/* Shared container style */
+.container{
+    width:650px;
+    margin:30px auto;
+    background:white;
+    border:2px solid #333;
+    padding:25px;
+    border-radius:8px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+}
+
+td{
+    padding:8px;
+}
+
+input{
+    width:100%;
+    padding:7px;
+    font-size:15px;
+}
+
+.result{
+    text-align:center;
+    margin-top:25px;
+}
+
+.result h1{
+    font-size:35px;
+}
+
+.grade-output{
+    color:red;
+    font-size:50px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.buttons{
+    text-align:center;
+    margin-top:20px;
+}
+
+button{
+    padding:10px 20px;
+    font-size:16px;
+    margin:5px;
+    cursor:pointer;
+}
+
+/* Simple Calculator Styles */
+.calculator-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 300px;
+    margin: 40px auto;
+    border: 2px solid #333;
+}
+
+.calculator-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.input-group label {
+    width: 100px;
+    font-weight: bold;
+}
+
+.input-group input {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-group input[readonly] {
+    background-color: #e9e9e9;
+    border: 1px solid #999;
+    color: #333;
+}
+
+.calculator-container .buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.calculator-container button {
+    padding: 10px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s;
+    flex: none;
+}
+
+.calculator-container button:hover {
+    background-color: #e0e0e0;
+}
+
+button.clear-btn {
+    background-color: #ffdddd;
+    color: #d8000c;
+}
+
+button.clear-btn:hover {
+    background-color: #ffbaba;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Prelim Grade Calculator -->
+<div class="container">
+<h2>Prelim Grade Calculator</h2>
+<table>
+<tr><td>Enter Quiz 1</td><td><input type="number" id="pq1" min="0" max="100"></td></tr>
+<tr><td>Enter Quiz 2</td><td><input type="number" id="pq2" min="0" max="100"></td></tr>
+<tr><td>Enter Quiz 3</td><td><input type="number" id="pq3" min="0" max="100"></td></tr>
+<tr><td>Enter Laboratory Activity 1</td><td><input type="number" id="pl1" min="0" max="100"></td></tr>
+<tr><td>Enter Laboratory Activity 2</td><td><input type="number" id="pl2" min="0" max="100"></td></tr>
+<tr><td>Enter Laboratory Activity 3</td><td><input type="number" id="pl3" min="0" max="100"></td></tr>
+<tr><td>Enter Assignment 1</td><td><input type="number" id="pa1" min="0" max="100"></td></tr>
+<tr><td>Enter Assignment 2</td><td><input type="number" id="pa2" min="0" max="100"></td></tr>
+<tr><td>Enter Prelim Exam</td><td><input type="number" id="pexam" min="0" max="100"></td></tr>
+</table>
+
+<div class="result">
+<h1>Your Prelim Grade is:</h1>
+<div id="prelimGrade" class="grade-output">0.00</div>
+</div>
+
+<div class="buttons">
+<button type="button" onclick="computePrelim()">Compute</button>
+<button type="button" onclick="resetPrelim()">Reset</button>
+</div>
+</div>
+
+<!-- Midterm Grade Calculator -->
+<div class="container">
+<h2>Midterm Grade Calculator</h2>
+<table>
+<tr><td>Quiz 1</td><td><input type="number" id="mq1"></td></tr>
+<tr><td>Quiz 2</td><td><input type="number" id="mq2"></td></tr>
+<tr><td>Quiz 3</td><td><input type="number" id="mq3"></td></tr>
+<tr><td>Lab 1</td><td><input type="number" id="ml1"></td></tr>
+<tr><td>Lab 2</td><td><input type="number" id="ml2"></td></tr>
+<tr><td>Lab 3</td><td><input type="number" id="ml3"></td></tr>
+<tr><td>Assignment 1</td><td><input type="number" id="ma1"></td></tr>
+<tr><td>Assignment 2</td><td><input type="number" id="ma2"></td></tr>
+<tr><td>Midterm Exam</td><td><input type="number" id="mexam"></td></tr>
+</table>
+
+<div class="result">
+  <h1>Your Midterm Grade is:</h1>
+  <div id="midtermGrade" class="grade-output">0.00</div>
+</div>
+
+<div class="buttons">
+  <button onclick="computeMidterm()">Compute</button>
+  <button onclick="resetMidterm()">Reset</button>
+</div>
+</div>
+
+
+<!-- Final Grade Calculator -->
+<div class="container">
+<h2>Final Grade Calculator</h2>
+<table>
+<tr><td>Quiz 1</td><td><input type="number" id="fq1"></td></tr>
+<tr><td>Quiz 2</td><td><input type="number" id="fq2"></td></tr>
+<tr><td>Quiz 3</td><td><input type="number" id="fq3"></td></tr>
+<tr><td>Lab 1</td><td><input type="number" id="fl1"></td></tr>
+<tr><td>Lab 2</td><td><input type="number" id="fl2"></td></tr>
+<tr><td>Lab 3</td><td><input type="number" id="fl3"></td></tr>
+<tr><td>Assignment 1</td><td><input type="number" id="fa1"></td></tr>
+<tr><td>Assignment 2</td><td><input type="number" id="fa2"></td></tr>
+<tr><td>Final Exam</td><td><input type="number" id="fexam"></td></tr>
+</table>
+
+<div class="result">
+  <h1>Your Final Grade is:</h1>
+  <div id="finalGrade" class="grade-output">0.00</div>
+</div>
+
+<div class="buttons">
+  <button onclick="computeFinal()">Compute</button>
+  <button onclick="resetFinal()">Reset</button>
+</div>
+</div>
+
+<!-- Overall Grades Summary -->
+<div class="container">
+  <h2>Overall Grades Summary</h2>
+  <table>
+    <tr><td>Prelim Grade:</td><td><span id="summaryPrelim">0.00</span></td></tr>
+    <tr><td>Midterm Grade:</td><td><span id="summaryMidterm">0.00</span></td></tr>
+    <tr><td>Final Grade:</td><td><span id="summaryFinal">0.00</span></td></tr>
+  </table>
+</div>
+
+<!-- Simple Calculator -->
+<div class="calculator-container">
+    <h2>Simple JavaScript Calculator</h2>
+    
+    <div class="input-group">
+        <label for="num1">1st Number:</label>
+        <input type="number" id="num1" placeholder="0">
+    </div>
+
+    <div class="input-group">
+        <label for="num2">2nd Number:</label>
+        <input type="number" id="num2" placeholder="0">
+    </div>
+
+    <div class="input-group">
+        <label for="answer">Answer:</label>
+        <input type="text" id="answer" readonly>
+    </div>
+
+    <div class="buttons">
+        <button onclick="calculate('+')">+</button>
+        <button onclick="calculate('-')">-</button>
+        <button onclick="calculate('*')">*</button>
+        <button onclick="calculate('/')">/</button>
+        <button class="clear-btn" onclick="clearFields()">Clear</button>
+    </div>
+</div>
+
+
+
+<script>
+// Utility
+function val(id){ return parseFloat(document.getElementById(id).value) || 0; }
+
+// Prelim
+function computePrelim(){
+    let quiz=(val("pq1")+val("pq2")+val("pq3"))/3;
+    let lab=(val("pl1")+val("pl2")+val("pl3"))/3;
+    let assign=(val("pa1")+val("pa2"))/2;
+    let exam=val("pexam");
+    let CS=(quiz*0.60)+(assign*0.20)+(lab*0.20);
+    let PG=(CS*0.50)+(exam*0.50);
+    document.getElementById("prelimGrade").textContent = PG.toFixed(2);
+    document.getElementById("summaryPrelim").textContent = PG.toFixed(2); // update summary
+}
+// Prelim Reset
+function resetPrelim(){
+    document.querySelectorAll("#pq1,#pq2,#pq3,#pl1,#pl2,#pl3,#pa1,#pa2,#pexam")
+        .forEach(el => el.value = "");
+    document.getElementById("prelimGrade").textContent = "0.00";
+    document.getElementById("summaryPrelim").textContent = "0.00";
+    updateSummaryOverall();
+}
+// Midterm
+function computeMidterm(){
+    let quiz=(val("mq1")+val("mq2")+val("mq3"))/3;
+    let lab=(val("ml1")+val("ml2")+val("ml3"))/3;
+    let assign=(val("ma1")+val("ma2"))/2;
+    let exam=val("mexam");
+    let CS=(quiz*0.60)+(assign*0.20)+(lab*0.20);
+    let MG=(CS*0.50)+(exam*0.50);
+    document.getElementById("midtermGrade").textContent = MG.toFixed(2);
+    document.getElementById("summaryMidterm").textContent = MG.toFixed(2); // update summary
+}
+// Midterm Reset
+function resetMidterm(){
+    document.querySelectorAll("#mq1,#mq2,#mq3,#ml1,#ml2,#ml3,#ma1,#ma2,#mexam")
+        .forEach(el => el.value = "");
+    document.getElementById("midtermGrade").textContent = "0.00";
+    document.getElementById("summaryMidterm").textContent = "0.00";
+    updateSummaryOverall();
+}
+
+// Final
+function computeFinal(){
+    let quiz=(val("fq1")+val("fq2")+val("fq3"))/3;
+    let lab=(val("fl1")+val("fl2")+val("fl3"))/3;
+    let assign=(val("fa1")+val("fa2"))/2;
+    let exam=val("fexam");
+    let CS=(quiz*0.60)+(assign*0.20)+(lab*0.20);
+    let FG=(CS*0.50)+(exam*0.50);
+    document.getElementById("finalGrade").textContent = FG.toFixed(2);
+    document.getElementById("summaryFinal").textContent = FG.toFixed(2); // update summary
+}
+
+// Final Reset
+function resetFinal(){
+    document.querySelectorAll("#fq1,#fq2,#fq3,#fl1,#fl2,#fl3,#fa1,#fa2,#fexam")
+        .forEach(el => el.value = "");
+    document.getElementById("finalGrade").textContent = "0.00";
+    document.getElementById("summaryFinal").textContent = "0.00";
+    updateSummaryOverall();
+}
+
+
+        
+
+// ---------------- Simple Calculator ----------------
+function calculate(operator) {
+    const num1 = parseFloat(document.getElementById('num1').value);
+    const num2 = parseFloat(document.getElementById('num2').value);
+    const answerField = document.getElementById('answer');
+
+    if (isNaN(num1) || isNaN(num2)) {
+        answerField.value = "Error";
+        return;
+    }
+
+    let result;
+    switch (operator) {
+        case '+': result = num1 + num2; break;
+        case '-': result = num1 - num2; break;
+        case '*': result = num1 * num2; break;
+        case '/':
+            if (num2 === 0) {
+                answerField.value = "Cannot divide by 0";
+                return;
+            }
+            result = num1 / num2;
+            break;
+        default:
+            answerField.value = "Error";
+            return;
+    }
+    answerField.value = result;
+}
+function clearFields() {
+    document.getElementById('num1').value = '';
+    document.getElementById('num2').value = '';
+    document.getElementById('answer').value = '';
+}
+</script>
